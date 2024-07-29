@@ -1,0 +1,21 @@
+Provisioners:
+
+There are 2 types of Provisioners
+1. local_exec  --> it will where you're terraform command(like your laptop)
+
+2. remote_exec  --> this will run inside the server
+
+Provisioners are useful to integrate terraform with configuration management tools like ansible
+
+Here, terraform respoblility is to create the server
+server creation ----> infra creation(terraform)
+server configuration --> configuration management (ansible)
+
+creation -time --> this local_exec will run when server is created
+destroy time --> at the time of destroy command
+
+
+remote_exec
+---------
+1. first you should connect to the server
+2. then you can run anything inside the server.
