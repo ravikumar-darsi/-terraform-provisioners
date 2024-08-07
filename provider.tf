@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "daws76s-remote-state" # you should creat this s3 bucket
+    bucket = "daws76s-remote-state-new" # you should creat this s3 bucket
     key    = "provisioner"
     region = "us-east-1"
     dynamodb_table = "daws76s-locking" # you should create the table in dynamoDB
