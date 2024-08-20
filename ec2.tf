@@ -1,20 +1,20 @@
-resource "aws_instance" "name" {
+resource "aws_instance" "web" {
   ami                    = "ami-0b4f379183e5706b9" #devops-practice
-  instance_type = "t2.micro"
-    vpc_security_group_ids = [aws_security_group.roboshop-all.id] # I have added while creating the remote_exec
+  instance_type          = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.roboshop-all.id] # I have added while creating the remote_exec
   tags = {
     Name = "provisioners"
   }
 
-   provisioner "local-exec" {
+  provisioner "local-exec" {
     command = "echo this will execute at the time of creation, you can trigger other system like email and sending alerts" # self = aws_instance.web
   }
-   provisioner "local-exec" {
+  provisioner "local-exec" {
     command = "echo The server's Ip address is  ${self.private_ip}" # self = aws_instance.web
   }
-  
 
-   provisioner "local-exec" {
+
+  provisioner "local-exec" {
     command = "echo ${self.private_ip} > inventory" # self = aws_instance.web
   }
 
@@ -23,7 +23,7 @@ resource "aws_instance" "name" {
   # }
 
   provisioner "local-exec" {
-    when = destroy
+    when    = destroy
     command = "echo this will execute at the time of destroy, you can trigger other system like email and sending alerts" # self = aws_instance.web
   }
 
@@ -41,36 +41,36 @@ resource "aws_instance" "name" {
       "sudo systemctl start nginx"
     ]
   }
-  
+
 }
 
-resource "aws_security_group" "roboshop-all" { 
-    name        = "provisioner"
+resource "aws_security_group" "roboshop-all" {
+  name = "provisioner"
 
-    ingress {
-        description      = "Allow All ports"
-        from_port        = 22 
-        to_port          = 22 
-        protocol         = "tcp"
-        cidr_blocks      = ["0.0.0.0/0"]
-    }
+  ingress {
+    description = "Allow All ports"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-    ingress {
-        description      = "Allow All ports"
-        from_port        = 80 
-        to_port          = 80 
-        protocol         = "tcp"
-        cidr_blocks      = ["0.0.0.0/0"]
-    }
+  ingress {
+    description = "Allow All ports"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-    egress {
-        from_port        = 0
-        to_port          = 0
-        protocol         = "-1"
-        cidr_blocks      = ["0.0.0.0/0"]
-    }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-    tags = {
-        Name = "provisioner"
-    }
+  tags = {
+    Name = "provisioner"
+  }
 }
